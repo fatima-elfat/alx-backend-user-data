@@ -5,7 +5,7 @@ Handeling persenal Data.
 """
 import logging
 import mysql.connector
-from os import getenv
+import os
 import re
 from typing import List
 
@@ -64,11 +64,11 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     Returns:
         mysql.connector.connection.MySQLConnection: connector to the database.
     """
-    host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    db_name = getenv("PERSONAL_DATA_DB_NAME")
-    cnx = mysql.connector.connection.MySQLConnection(
+    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    cnx = mysql.connector.connect(
         host=host,
         user=username,
         password=password,
