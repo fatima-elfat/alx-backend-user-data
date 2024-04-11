@@ -37,16 +37,16 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return message
 
 
-def get_info() -> logging.info:
+def get_logger() -> logging.logger:
     """
-    takes no arguments and returns a logging.info object.
+    takes no arguments and returns a logging.Logger object.
     choose the right list of fields that can are considered
     as “important” PIIs or information that you must hide
     in your logs. Use it to parameterize the formatter.
     Returns:
-        logging.info: _description_
+        logging.Logger: _description_
     """
-    info = logging.getinfo("user_data")
+    info = logging.getLogger("user_data")
     stream = logging.StreamHandler()
     info.setLevel(logging.INFO)
     info.propagate = False
@@ -90,7 +90,7 @@ def main():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
     field = [fields[0] for fields in cursor.description]
-    info = get_info()
+    info = get_logger()
     for line in cursor:
         for t in zip(line, field):
             msg = ''.join('{}={str()};'.format(t[0], t[1]))
