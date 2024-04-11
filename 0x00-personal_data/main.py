@@ -6,9 +6,13 @@ Main file
 get_db = __import__('filtered_logger').get_db
 
 db = get_db()
+if (db.is_connected()):
+    print("Connected")
+else:
+    print("Not connected")
 cursor = db.cursor()
 cursor.execute("SELECT COUNT(*) FROM users;")
 for row in cursor:
         print(row[0])
-        cursor.close()
-        db.close()
+cursor.close()
+db.close()
