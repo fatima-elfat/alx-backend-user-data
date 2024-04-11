@@ -37,7 +37,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return message
 
 
-def get_logger() -> logging.logger:
+def get_logger() -> logging.Logger:
     """
     takes no arguments and returns a logging.Logger object.
     choose the right list of fields that can are considered
