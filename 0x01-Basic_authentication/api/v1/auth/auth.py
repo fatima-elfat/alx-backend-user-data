@@ -20,7 +20,6 @@ class Auth:
                 if ex_path[-1] in ['*', '/']:
                     if path == ex_path[0:-1]:
                         return False
-                return False
         return True
 
     def authorization_header(self, request=None) -> str:
