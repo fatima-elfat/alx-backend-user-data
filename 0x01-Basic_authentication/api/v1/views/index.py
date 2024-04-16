@@ -24,3 +24,25 @@ def stats() -> str:
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats)
+
+
+@app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
+def unauthorized() -> str:
+    """
+    Task 1. Error handler: Unauthorized.
+    Route: GET /api/v1/unauthorized
+    This endpoint must raise a 401 error by using abort - Custom Error Pages.
+    By calling abort(401), the error handler for 401 will be executed.
+    """
+    abort(401)
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden() -> str:
+    """
+    Task 2. Error handler: Forbidden.
+    Route: GET /api/v1/forbidden
+    This endpoint must raise a 403 error by using abort - Custom Error Pages.
+    By calling abort(403), the error handler for 403 will be executed.
+    """
+    abort(403)
