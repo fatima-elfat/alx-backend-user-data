@@ -17,6 +17,8 @@ class Auth:
         if path is not None and excluded_paths is not None:
             for ex_path in excluded_paths:
                 ex_path = ex_path.strip()
+                if path == ex_path:
+                    return False
                 if ex_path[-1] in ['*', '/']:
                     if path == ex_path[0:-1]:
                         return False
