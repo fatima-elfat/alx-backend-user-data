@@ -3,6 +3,7 @@
 Task 6. Basic auth.
 Task 7. Basic - Base64 part.
 Task 8. Basic - Base64 decode.
+        Task 9. Basic - User credentials.
 """
 from api.v1.auth.auth import Auth
 from base64 import b64decode
@@ -55,5 +56,26 @@ class BasicAuth(Auth):
             r = b.decode("utf-8")
         except Exception:
             return None
-
         return r
+
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str) -> (str, str):
+        """
+        Task 9. Basic - User credentials.
+        returns the user email and password from the Base64 decoded value.
+            This method must return 2 values
+            Return None, None if d.._b..._a..._h... is None
+            Return None, None if d.._b..._a..._h... is not a string
+            Return None, None if d.._b..._a..._h... doesn’t contain :
+            Otherwise, return the user email and the user password
+                these 2 values must be separated by a :
+            You can assume d.._b..._a..._h... will contain only one :
+        """
+
+        if decoded_base64_authorization_header is None or\
+                not isinstance(decoded_base64_authorization_header, str):
+            return None, None
+        if ':' not in decoded_base64_authorization_header:
+            return None, None
+        a, b = decoded_base64_authorization_header.split(':', 1)
+        return a, b
