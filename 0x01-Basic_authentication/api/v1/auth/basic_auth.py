@@ -5,6 +5,7 @@ Task 7. Basic - Base64 part.
 Task 8. Basic - Base64 decode.
 Task 9. Basic - User credentials.
 Task 10. Basic - User object.
+Task 11. Basic - Overload current_user - and BOOM!
 """
 from api.v1.auth.auth import Auth
 from base64 import b64decode
@@ -111,3 +112,27 @@ class BasicAuth(Auth):
             if user.is_valid_password(user_pwd):
                 return user
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Task 11. Basic - Overload current_user - and BOOM!
+        retrieves the User instance for a request:
+            You must use authorization_header.
+            You must use extract_base64_authorization_header.
+            You must use decode_base64_authorization_header.
+            You must use extract_user_credentials.
+            You must use user_object_from_credentials.
+        """
+        auth_ = self.authorization_header(request)
+        if not auth_:
+            return None
+        base_ = self.extract_base64_authorization_header(auth_)
+        if not base_:
+            return None
+        base_decoded = self.decode_base64_authorization_header(base_)
+        if not base_decoded:
+            return None
+        e, p = self.extract_user_credentials(base_decoded)
+        if not e or not p:
+            return None
+        return self.user_object_from_credentials(e, p)
