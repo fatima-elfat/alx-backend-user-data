@@ -3,7 +3,8 @@
 Task 6. Basic auth.
 Task 7. Basic - Base64 part.
 Task 8. Basic - Base64 decode.
-        Task 9. Basic - User credentials.
+Task 9. Basic - User credentials.
+Task 10. Basic - User object.
 """
 from api.v1.auth.auth import Auth
 from base64 import b64decode
@@ -79,3 +80,38 @@ class BasicAuth(Auth):
             return None, None
         a, b = decoded_base64_authorization_header.split(':', 1)
         return a, b
+
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        """
+        Task 10. Basic - User object.
+        returns the User instance based on his email and password.
+            Return None if user_email is None or not a string
+            Return None if user_pwd is None or not a string
+            Return None if your database (file) doesn’t contain
+                any User instance with email equal to user_email 
+                you should use the class method search of the User
+                to lookup the list of users based on their email.
+                Don’t forget to test all cases:
+                “what if there is no user in DB?”, etc.
+            Return None if user_pwd is not the password of
+            the User instance found - you must use
+            the method is_valid_password of User
+            Otherwise, return the User instance
+        """
+        if user_email is None or not isinstance(user_email, str):
+            return None
+
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+
+        try:
+            found_users = User.search({'email': user_email})
+        except Exception:
+            return None
+
+        for user in found_users:
+            if user.is_valid_password(user_pwd):
+                return user
+
+        return None
