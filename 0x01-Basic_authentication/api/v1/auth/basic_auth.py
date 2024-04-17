@@ -89,7 +89,7 @@ class BasicAuth(Auth):
             Return None if user_email is None or not a string
             Return None if user_pwd is None or not a string
             Return None if your database (file) doesn’t contain
-                any User instance with email equal to user_email 
+                any User instance with email equal to user_email
                 you should use the class method search of the User
                 to lookup the list of users based on their email.
                 Don’t forget to test all cases:
@@ -101,17 +101,13 @@ class BasicAuth(Auth):
         """
         if user_email is None or not isinstance(user_email, str):
             return None
-
         if user_pwd is None or not isinstance(user_pwd, str):
             return None
-
         try:
-            found_users = User.search({'email': user_email})
+            users = User.search({'email': user_email})
         except Exception:
             return None
-
-        for user in found_users:
+        for user in users:
             if user.is_valid_password(user_pwd):
                 return user
-
         return None
