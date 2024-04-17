@@ -4,6 +4,7 @@ Task 3. Auth class.
 """
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
@@ -19,8 +20,11 @@ class Auth:
                 ex_path = ex_path.strip()
                 if path == ex_path:
                     return False
-                if ex_path[-1] in ['*', '/']:
+                if ex_path[-1] in ['/']:
                     if path == ex_path[0:-1]:
+                        return False
+                if ex_path[-1] in ['*']:
+                    if re.match(ex_path[0:-1], path):
                         return False
         return True
 
