@@ -9,20 +9,20 @@ from models.user import User
 from os import getenv
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
 def login():
     """
     Task 7. New view for Session Authentication.
     POST /auth_session/login
     """
-    email = request.form.get('email').strip()
-    if email is None:
+    email = request.form.get("email").strip()
+    if not email:
         return jsonify({"error": "email missing"}), 400
-    password = request.form.get('password')
-    if password is None or len(password.strip()) == 0:
+    password = request.form.get("password")
+    if not password or len(password.strip()) == 0:
         return jsonify({"error": "password missing"}), 400
     try:
-        users = User.search({'email': email})
+        users = User.search({"email": email})
     except Exception:
         return jsonify({"error": "no user found for this email"}), 404
     if users is None:
@@ -41,7 +41,7 @@ def login():
 
 
 @app_views.route(
-    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+    "/auth_session/logout", methods=["DELETE"], strict_slashes=False)
 def logout():
     """
     Task 8. Logout.
