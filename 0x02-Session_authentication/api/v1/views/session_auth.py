@@ -15,7 +15,7 @@ def login():
     Task 7. New view for Session Authentication.
     POST /auth_session/login
     """
-    email = request.form.get("email").strip()
+    email = request.form.get("email")
     if not email or email is None:
         return jsonify({"error": "email missing"}), 400
     password = request.form.get("password")
