@@ -68,7 +68,7 @@ def authorization():
              "/api/v1/forbidden/", "/api/v1/auth_session/login/"]
         if auth.require_auth(request.path, p):
             auth_ = auth.authorization_header(request)
-            if auth_ is None:
+            if auth_ is None and auth.session_cookie(request) is None:
                 abort(401)
             user = auth.current_user(request)
             if user is None:
