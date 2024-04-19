@@ -16,10 +16,10 @@ def login():
     POST /auth_session/login
     """
     email = request.form.get("email").strip()
-    if not email:
+    if not email or email is None:
         return jsonify({"error": "email missing"}), 400
     password = request.form.get("password")
-    if not password or len(password.strip()) == 0:
+    if password is None or len(password.strip()) == 0:
         return jsonify({"error": "password missing"}), 400
     try:
         users = User.search({"email": email})
@@ -27,7 +27,7 @@ def login():
         return jsonify({"error": "no user found for this email"}), 404
     if users is None:
         return jsonify({"error": "no user found for this email"}), 404
-    if users[0].is_valid_password(password) is None:
+    if not users[0].is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
     # You must use from api.v1.app import auth - WARNING: please import
     # it only where you need it - not on top of the file
