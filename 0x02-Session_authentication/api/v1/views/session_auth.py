@@ -25,10 +25,11 @@ def login():
         users = User.search({"email": email})
     except Exception:
         return jsonify({"error": "no user found for this email"}), 404
-    if users is None:
+    if users is None or not users:
         return jsonify({"error": "no user found for this email"}), 404
-    if not users[0].is_valid_password(password):
-        return jsonify({"error": "wrong password"}), 401
+    for user in users:
+        if not user.is_valid_password(password):
+            return jsonify({"error": "wrong password"}), 401
     # You must use from api.v1.app import auth - WARNING: please import
     # it only where you need it - not on top of the file
     # (can generate circular import - and break first tasks of this project)
